@@ -16,7 +16,7 @@ The Domain Keys Identified Mail (DKIM) signatures [standard](https://datatracker
 
 However, a few caveats prevent straightforward usage of email data and DKIM signatures on-chain. The main ones are that verifying DKIM in a smart contract is expensive and that an email might contain private data we aren’t keen to expose on-chain.  Zero-knowledge proofs are a pertinent solution for this scenario, where an off-chain prover can process an email and verify its DKIM signature, producing a succinct proof for the correctness of the signature verification routine to use on-chain.
 
-According to the [ZK Email’s blog](https://prove.email/blog), it brings to the table a slew of prolific applications, including Email account recovery, Anonymous KYC, Identity Claims, Whistleblowing, and On-chain Legal Documents, to name a few. 
+According to the [ZK Email’s blog](https://zk.email/blog), it brings to the table a slew of prolific applications, including Email account recovery, Anonymous KYC, Identity Claims, Whistleblowing, and On-chain Legal Documents, to name a few. 
 
 On the whole, the ZK Email system comprises five main components: 
 
@@ -36,7 +36,7 @@ The account recovery flow includes the following steps:
 4. At the time of recovery, guardians send emails with recovery commands to the relayer, which produces a ZK-proof for the `EmailAuth` circuit and submits it alongside the masked recovery command by calling `handleRecovery` of the `EmailAccountRecovery` contract. The recovery command in the email is structured as follows: `Recover account ETH_ADDRESS using recovery hash PUBKEY`.
 5. Upon receiving sufficient votes from guardians, the recovery process concludes by calling `completeRecovery` of the `EmailRecoveryManager` contract.
 
-For more details, we encourage readers to look into the [ZK Email blog](https://prove.email/blog/zkemail). Otherwise, let's dive straight into the juicy stuff without any delay.
+For more details, we encourage readers to look into the [ZK Email blog](https://zk.email/blog/zkemail). Otherwise, let's dive straight into the juicy stuff without any delay.
 
 ## Parser discrepancies strike again
 
@@ -193,7 +193,7 @@ Otherwise, having `a` character as an input, it transitions from state `1` to st
 
 This implies that one can bypass the regexp by feeding `[x, y, z, \xff, a]` as an input array. Initially, the DFA transitions from state `0` to state `1`  while processing the start of the string. Later, as the `x`, `y`, and `z` input characters are processed, the DFA remains in state `0` since the `x` character transitioned the DFA back to state `0` from state `1`. However, when it receives `\xff` character as the 4th character, the DFA transitions to state `1`, and the subsequent `a` character input entails the DFA’s transition to the accepted state.
 
-For a further deep dive into the ZK regex compiler, we highly recommend the [ZK Regexp technical explainer](https://prove.email/blog/zkregex). Inquisitive readers can visit online [ZK Regex Tools](https://zkregex.com/) to build DFAs and state matrices or obtain Circom circuits for regexes of their choice.
+For a further deep dive into the ZK regex compiler, we highly recommend the [ZK Regexp technical explainer](https://zk.email/blog/zkregex). Inquisitive readers can visit online [ZK Regex Tools](https://zkregex.com/) to build DFAs and state matrices or obtain Circom circuits for regexes of their choice.
 
 Now, coming back to the vulnerability. We’ve discovered that most email providers blissfully send invalid UTF-8 characters in the subject header of an email, including the `\xff` character.
 
